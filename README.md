@@ -49,24 +49,24 @@ The project follows a structured pipeline comprising data collection, preprocess
 
 1. Data Collection (`data_collection.ipynb`):
 
-Sources ICU patient data from the MIMIC-IV dataset.
+    - Sources ICU patient data from the MIMIC-IV dataset.
 
-Filters relevant items (e.g., PTH and calcium data) for osteoporosis risk prediction.
+    - Filters relevant items (e.g., PTH and calcium data) for osteoporosis risk prediction.
 
 2. Data Processing (`data_processing.ipynb`):
 
-Cleans the collected data, handling missing values, normalizing features, and encoding categorical variables.
+    - Cleans the collected data, handling missing values, normalizing features, and encoding categorical variables.
 
-Prepares a processed dataset (processed_Op_Hp_LabEvents.csv) for modeling.
+    - Prepares a processed dataset (processed_Op_Hp_LabEvents.csv) for modeling.
 
 3. Modeling and Evaluation (`data_modeling.ipynb`):
 
-Trains and evaluates machine learning models (e.g., Logistic Regression, Random Forest, Support Vector Machine).
+    - Trains and evaluates machine learning models (e.g., Logistic Regression, Random Forest, Support Vector Machine).
 
-Uses techniques like SMOTE for handling class imbalance.
+    - Uses techniques like SMOTE for handling class imbalance.
 
-Evaluates model performance using precision, recall, F1-score, and AUC-ROC.
-Conducts feature importance analysis and visualizes significant predictors.
+    - Evaluates model performance using precision, recall, F1-score, and AUC-ROC.
+    - Conducts feature importance analysis and visualizes significant predictors.
 
 ### Data Files
 
