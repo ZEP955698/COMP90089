@@ -65,7 +65,7 @@ The project follows a structured pipeline comprising data collection, preprocess
 
     - Uses techniques like SMOTE for handling class imbalance.
 
-    - Evaluates model performance using precision, recall, F1-score, and AUC-ROC.
+    - Evaluates model performance using precision, recall, F1-score, and ROC-AUC.
     - Conducts feature importance analysis and visualizes significant predictors.
 
 ### Data Files
