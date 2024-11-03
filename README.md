@@ -93,6 +93,12 @@ The project follows a structured pipeline comprising data collection, preprocess
 
 - `ost_violionplot.png`: A violion plot showing distributions of PTH and CCR by gender and osteoporosis status.
 
+## Exploratory Data Analysis
+![ost_kdeplot](./plot/ost_kdeplot.png)
+
+![ost_violinplot](./plot/ost_violinplot.png)
+
+
 ## Results
 The modeling process produced a machine learning model capable of predicting osteoporosis with notable accuracy, identifying key predictors in hospitalised patients. By interpreting feature importance through plots, we gain insights into which variables, such as PTH and CCR, most significantly influence the model's predictions.
 
