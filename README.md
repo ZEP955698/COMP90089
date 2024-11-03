@@ -1,6 +1,6 @@
-# Osteoporosis Prediction in ICU Patients using Machine Learning
+# Osteoporosis Prediction in Hospitalised Patients using Machine Learning
 
-This project aims to develop a supervised machine learning model to predict osteoporosis risk in ICU patients, leveraging patient data related to Parathyroid Hormone (PTH) levels and urinary calcium-to-creatinine ratio (CCR). By identifying high-risk individuals early, this model can assist medical professionals in implementing timely interventions and personalized care.
+This project aims to develop a supervised machine learning model to predict osteoporosis risk in hospitalised patients, leveraging patient data related to Parathyroid Hormone (PTH) levels and urinary calcium-to-creatinine ratio (CCR). By identifying high-risk individuals early, this model can assist medical professionals in implementing timely interventions and personalized care.
 
 ## Project Structure
 
@@ -8,34 +8,45 @@ The project folder is organized as follows:
 
 ```plaintext
 ├── notebook
-│   ├── data_collection.ipynb       # Data collection process using MIMIC-IV dataset
-│   ├── data_processing.ipynb       # Data cleaning and preprocessing
-│   ├── data_modeling.ipynb         # Model training, evaluation, and feature analysis
-│
-├── plot
-│   ├── Hyperparathyroidism_feature_importance.svg  # Feature importance plot for Hyperparathyroidism
-│   ├── Osteoporosis_feature_importance.svg         # Feature importance plot for Osteoporosis
+│   ├── data_collection.ipynb         # Data collection process using MIMIC-IV dataset
+│   ├── data_visualisation.ipynb      # Exploratory Data Analysis
+│   ├── data_processing.ipynb         # Data cleaning and preprocessing
+│   ├── data_modeling.ipynb           # Model training, evaluation, and feature analysis
 │
 ├── data
-│   ├── processed_Op_Hp_LabEvents.csv  # Cleaned dataset ready for modeling
-│   ├── raw_Op_Hp_LabEvents.csv        # Original raw dataset collected from MIMIC-IV
+│   ├── raw_Ost_LabEvents.csv         # Original raw dataset collected from MIMIC-IV
+│   ├── processed_Ost_LabEvents.csv   # Cleaned dataset ready for modeling
+│
+├── plot
+│   ├── ost_kdeplot.png               # Kernel densify plot for PTH and CCR
+│   ├── ost_violinplot.png            # Violion plot for PTH and CCR
+│   ├── ost_feature_importance.png    # Feature weigths plot from various ML models
+│
+├── model
+│   ├── ost_feature_importance.json      # Feature weights calculated by various ML models
+│
 ```
 ## Project Overview
 
 ### Research Objective
-The goal of this project is to predict osteoporosis risk in ICU patients based on PTH levels and CCR values. The model is designed to help healthcare professionals identify high-risk individuals, ultimately supporting preventive measures and improved patient outcomes.
+The goal of this project is to predict osteoporosis risk in hospitalised patients based on PTH levels and CCR values. The model is designed to help healthcare professionals identify high-risk individuals, ultimately supporting preventive measures and improved patient outcomes.
 
 ### Dependencies
 All required Python libraries are listed in `requirements.txt`:
 
 ```plaintext
+catboost==1.2.7
 imblearn==0.0
+lightgbm==4.5.0
 matplotlib==3.7.2
 numpy==1.24.3
 pandas==2.0.3
+pandas_gbq==0.24.0
 protobuf==3.20.3
 scikit_learn==1.3.2
 seaborn==0.13.2
+shap==0.46.0
+xgboost==2.1.2
 ```
 To install these dependencies, run:
 
@@ -49,17 +60,18 @@ The project follows a structured pipeline comprising data collection, preprocess
 
 1. Data Collection (`data_collection.ipynb`):
 
-    - Sources ICU patient data from the MIMIC-IV dataset.
+    - Sources hosp patient data from the MIMIC-IV dataset.
 
-    - Filters relevant items (e.g., PTH and calcium data) for osteoporosis risk prediction.
-
-2. Data Processing (`data_processing.ipynb`):
-
+    - Filters relevant items (e.g., PTH and CCR) for osteoporosis risk prediction.
+2. Data Visualisation (`data_visualisation.ipynb`):
+        - Prepare and clean data by renaming columns, mapping values, and calculating metrics.
+        - Visualise distributions of PTH and CCR by age and osteoporosis status using KDE plots.
+        - Create violin plots to compare the distribution of PTH and CCR across genders and osteoporosis status.
+3. Data Processing (`data_processing.ipynb`):
     - Cleans the collected data, handling missing values, normalizing features, and encoding categorical variables.
 
-    - Prepares a processed dataset (processed_Op_Hp_LabEvents.csv) for modeling.
-
-3. Modeling and Evaluation (`data_modeling.ipynb`):
+    - Prepares a processed dataset (`processed_Ost_LabEvents.csv`) for modeling.
+4. Modeling and Evaluation (`data_modeling.ipynb`):
 
     - Trains and evaluates machine learning models (e.g., Logistic Regression, Random Forest, Support Vector Machine).
 
@@ -70,45 +82,49 @@ The project follows a structured pipeline comprising data collection, preprocess
 
 ### Data Files
 
-- `raw_Op_Hp_LabEvents.csv`: The original raw dataset extracted from MIMIC-IV for ICU patients.
-- `processed_Op_Hp_LabEvents.csv`: The processed version of the raw dataset, cleaned and prepped for model training.
+- `raw_Ost_LabEvents.csv`: The original raw dataset extracted from MIMIC-IV for hospitalised patients.
+- `processed_Ost_LabEvents.csv`: The processed version of the raw dataset, cleaned and prepped for model training.
 
 ### Plots
 
-- `Hyperparathyroidism_feature_importance.svg`: A plot illustrating the most important features for predicting hyperparathyroidism in the ICU patient dataset.
+- `ost_feature_importance.png`: A plot illustrating the most important features for predicting osteoporosis.
 
-- `Osteoporosis_feature_importance.svg`: A feature importance plot for predicting osteoporosis, showing key risk indicators.
+- `ost_kdeplot.png`: A KDE plot showing distributions of PTH and CCR by age and osteoporosis status.
+
+- `ost_violionplot.png`: A violion plot showing distributions of PTH and CCR by gender and osteoporosis status.
 
 ## Results
-The modeling process produced a machine learning model capable of predicting osteoporosis with notable accuracy, identifying key predictors in ICU patients. By interpreting feature importance through plots, we gain insights into which variables, such as PTH and CCR, most significantly influence the model's predictions.
+The modeling process produced a machine learning model capable of predicting osteoporosis with notable accuracy, identifying key predictors in hospitalised patients. By interpreting feature importance through plots, we gain insights into which variables, such as PTH and CCR, most significantly influence the model's predictions.
 
 ### Model Results
 
-| Hyperparathyroidism    | precision | recall | f1-score | accuracy | ROC-AUC |
-| ---------------------- | --------- | ------ | -------- | -------- | ------- |
-| Logistic Regression    | 0.60      | 0.60   | 0.60     | 0.60     | 0.66    |
-| Random Forest          | 0.69      | 0.66   | 0.64     | 0.66     | 0.71    |
-| Support Vector Machine | 0.62      | 0.62   | 0.61     | 0.62     | 0.70    |
 
-
-| Osteoporosis           | precision | recall | f1-score | accuracy | ROC-AUC |
-| ---------------------- | --------- | ------ | -------- | -------- | ------- |
-| Logistic Regression    | 0.74      | 0.74   | 0.74     | 0.74     | 0.79    |
-| Random Forest          | 0.74      | 0.74   | 0.74     | 0.74     | 0.79    |
-| Support Vector Machine | 0.75      | 0.74   | 0.73     | 0.74     | 0.79    |
+| Osteoporosis       | precision | recall   | f1-score | accuracy | ROC-AUC  |
+| ------------------ | --------- | -------- | -------- | -------- | -------- |
+| LogisticRegression | 0.93      | 0.66     | 0.75     | 0.66     | 0.80     |
+| SVC                | 0.93      | 0.66     | 0.75     | 0.66     | 0.81     |
+| GaussianNB         | 0.93      | 0.73     | 0.80     | 0.73     | 0.77     |
+| KNeighbors         | 0.93      | **0.79** | **0.84** | **0.79** | 0.80     |
+| DecisionTree       | 0.92      | 0.75     | 0.81     | 0.75     | 0.79     |
+| RandomForest       | 0.93      | 0.71     | 0.78     | 0.71     | **0.82** |
+| AdaBoost           | 0.93      | 0.68     | 0.76     | 0.68     | 0.81     |
+| XGB                | 0.93      | 0.71     | 0.78     | 0.71     | 0.81     |
+| LGBM               | 0.93      | 0.72     | 0.79     | 0.72     | 0.81     |
+| CatBoost           | 0.93      | 0.71     | 0.79     | 0.71     | **0.82** |
+| MLP                | 0.93      | 0.72     | 0.79     | 0.72     | 0.81     |
 
 
 ### Feature Importance Accross different ML Models 
 
-![Hyperparathyroidism_feature_importance](./plot/Hyperparathyroidism_feature_importance.svg)
-
-![Osteoporosis_feature_importance](./plot/Osteoporosis_feature_importance.svg)
+![ost_feature_importance](./plot/ost_feature_importance.png)
 
 ## How to Run
 
 - Data Collection: Open `data_collection.ipynb` and run each cell to collect data from MIMIC-IV.
 
 - Data Processing: Run `data_processing.ipynb` to clean and preprocess the collected data.
+
+- Data Visualisation: Run `data_visualisation.ipynb` to visualise the distributions of collected data.
 
 - Model Training and Evaluation: Open `data_modeling.ipynb` to train the model, optimize hyperparameters, and evaluate performance. Use the plot folder for visualization of feature importance.
 
